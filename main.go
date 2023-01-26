@@ -2,7 +2,7 @@ package main
 
 import (
 	"net/http"
-
+	"fmt"
 	"github.com/gin-gonic/gin"
 )
 
@@ -16,6 +16,12 @@ func postAlbums(c *gin.Context) {
 }
 
 func main() {
+	input := "Hello my name is sanath ramesh"
+	rev := Reverse(input)
+	doubleRev := Reverse(rev)
+    fmt.Printf("original: %q\n", input)
+    fmt.Printf("reversed: %q\n", rev)
+    fmt.Printf("reversed again: %q\n", doubleRev)
 	router := gin.Default()
 	router.GET("/albums", getAlbums)
 	router.POST("/albums", postAlbums)
@@ -50,4 +56,12 @@ var albums = []album{
 // getAlbums responds with the list of all albums as JSON.
 func getAlbums(c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, albums)
+}
+
+func Reverse(b string) string {
+	s :=  []byte(b)
+	for i, j:= 0, len(s)-1; i<len(s)/2; i, j = i+1, j-1 {
+		s[i], s[j] = s[j], s[i]
+	}
+	return string(s)
 }
